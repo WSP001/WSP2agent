@@ -49,4 +49,5 @@ WSP2AGENT/
 └─ docs/
 └─ operation.md
 
+python scripts/make_personal_pdfs.py
 
