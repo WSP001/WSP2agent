@@ -73,27 +73,6 @@ with st.sidebar:
     os.environ["WSP_USE_DEMO"] = "1" if use_demo else "0"
     os.environ["WSP_SELENIUM_HEADLESS"] = "1" if headless else "0"
     os.environ["WSP_SCRAPE_DELAY_SECONDS"] = str(delay)
-with st.sidebar:
-    st.subheader("⚙️ Runtime Options")
-    use_demo = st.toggle(
-        "Use demo seed data",
-        value=True,
-        help="Skip live search/scrape and use bundled sample data for instant demos."
-    )
-    headless = st.toggle(
-        "Headless browser",
-        value=True,
-        help="Run Selenium without opening a visible browser window."
-    )
-    delay = st.slider(
-        "Scrape delay (seconds)",
-        min_value=0.5, max_value=5.0, value=2.0, step=0.5,
-        help="Add a small delay between requests to reduce blocking."
-    )
-    # Apply env flags for downstream modules / subprocess calls
-    os.environ["WSP_USE_DEMO"] = "1" if use_demo else "0"
-    os.environ["WSP_SELENIUM_HEADLESS"] = "1" if headless else "0"
-    os.environ["WSP_SCRAPE_DELAY_SECONDS"] = str(delay)
 
 st.title("🏡 WSP2AGENT — Mission Control")
 st.caption("Config-driven housing search pipeline with human-in-the-loop approvals")
