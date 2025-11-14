@@ -1,0 +1,81 @@
+name: WSP2AGENT Dry-Run (Windows)
+
+on:
+  workflow_dispatch:
+    inputs:
+      skip_install:
+        description: 'Skip install_deps.ps1 (true/false)'
+        required: false
+        default: 'false'
+
+jobs:
+  dry-run:
+    runs-on: windows-latest
+    env:
+      # MUST be set in repository secrets: SERPAPI_KEY
+      SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Allow execution of PowerShell scripts
+        shell: pwsh
+        run: |
+          Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+
+      - name: Install dependencies (optional)
+        if: ${{ inputs.skip_install == 'false' }}
+        shell: pwsh
+        run: |
+          Write-Host "Running install_deps.ps1..."
+          .\scripts\install_deps.ps1
+
+      - name: Ensure SERPAPI_KEY present
+        shell: pwsh
+        run: |
+          if (-not $env:SERPAPI_KEY -or $env:SERPAPI_KEY.Trim().Length -lt 10) {
+            Write-Error "SERPAPI_KEY is missing. Add it as a repository secret."
+            exit 1
+          } else {
+            Write-Host "SERPAPI_KEY present."
+          }
+
+      - name: Run full safe dry-run
+        shell: pwsh
+        run: |
+          # Skip reinstall (we already installed)
+          .\scripts\run_wsp_full.ps1 -SkipInstall
+
+      - name: Upload top10 CSV
+        uses: actions/upload-artifact@v4
+        with:
+          name: top10_landlords.csv
+          path: data/top10_landlords.csv
+
+      - name: Upload out PDFs
+        uses: actions/upload-artifact@v4
+        with:
+          name: out-pdfs
+          path: out/
+
+      - name: Upload sandbox packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: sandbox
+          path: data/sandbox/
+
+      - name: Upload search_results
+        uses: actions/upload-artifact@v4
+        with:
+          name: search_results
+          path: data/search_results.json
+
+      - name: List artifacts & workspace
+        shell: pwsh
+        run: |
+          Get-ChildItem -Recurse -Force -Depth 2 data | Select-Object -First 50

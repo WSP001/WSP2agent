@@ -1,0 +1,12 @@
+*** Begin Patch
+*** Update File: modules/searcher.py
+@@
+-from serpapi import GoogleSearch
+-+# Prefer serpapi import location and fall back if necessary
++try:
++    # Some installs expose GoogleSearch at top-level
++    from serpapi import GoogleSearch
++except Exception:
++    # Older serpapi==0.1.5 exposes GoogleSearch under serpapi.google_search
++    from serpapi.google_search import GoogleSearch
+*** End Patch
