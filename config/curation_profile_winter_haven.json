@@ -1,0 +1,33 @@
+{
+  "positive": {
+    "work for rent": 12,
+    "rent credit": 10,
+    "homeshare": 8,
+    "home share": 8,
+    "owner occupied": 8,
+    "for rent by owner": 7,
+    "caretaker": 7,
+    "caregiver": 6,
+    "gardener": 9,
+    "garden": 8,
+    "lawn": 7,
+    "yard": 7,
+    "maintenance": 5,
+    "winter haven": 5,
+    "33880": 5,
+    "church": 5,
+    "senior center": 4,
+    "silvernest": 6,
+    "homeshare online": 6
+  },
+  "negative": {
+    "apartment community": -12,
+    "property management": -9,
+    "large complex": -8,
+    "application portal": -6,
+    "management company": -6,
+    "corporate housing": -6
+  },
+  "contact_bonus": { "has_email": 6, "has_phone": 5 },
+  "top_n": 10
+}

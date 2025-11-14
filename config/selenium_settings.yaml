@@ -1,0 +1,56 @@
+# WSP2AGENT Selenium Configuration
+# Production-grade settings for robustness and maintainability
+
+# Chrome/ChromeDriver Paths (precedence: CLI > ENV > this file > defaults)
+chrome:
+  binary_path: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+  driver_path: "C:\\WebDriver\\chromedriver.exe"
+  version_required: "131"  # Major version matching
+
+# Scraper Behavior
+scraper:
+  headless_default: true
+  max_rows_default: 10
+  politeness_delay_min: 2.0  # seconds (randomized)
+  politeness_delay_max: 4.0  # seconds
+  max_retries: 2
+  retry_backoff_seconds: 5
+  timeout_seconds: 10
+  max_listings_per_run: 100  # safety limit
+
+# Selectors (centralized - update here if Craigslist changes HTML)
+selectors:
+  craigslist:
+    reply_button: "button.reply-button, a.reply-button, .reply"
+    email_span: "span.reply-email, .email-address"
+    phone_span: "span.reply-phone, .phone-number"
+    listing_body: "section#postingbody, .posting-body"
+
+# Environment Profiles
+environments:
+  dev:
+    headless: false  # visible browser for debugging
+    politeness_delay_min: 1.0
+    max_rows_default: 3  # test with small batches
+  staging:
+    headless: true
+    politeness_delay_min: 2.0
+    max_rows_default: 10
+  prod:
+    headless: true
+    politeness_delay_min: 3.0  # more polite in production
+    max_rows_default: 50
+    respect_robots_txt: true
+
+# Logging
+logging:
+  level: "INFO"  # DEBUG, INFO, WARN, ERROR
+  format: "json"  # json or text
+  output_dir: "logs"
+  retention_days: 30
+
+# Data Integrity
+data:
+  backup_before_write: true
+  atomic_writes: true
+  schema_validation: true

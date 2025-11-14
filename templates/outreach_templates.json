@@ -1,0 +1,25 @@
+{
+  "templates": [
+    {
+      "id": "frbo_owner",
+      "name": "FRBO / Owner-Occupied (Short)",
+      "subject": "Room inquiry — reliable tenant, can help with garden & light upkeep",
+      "body": "Hi {contact_name},\n\nI'm Robert, looking for a private room in Winter Haven (33880). Budget $400–$700. I'm tidy, pay on time, and can offer 6–10 hrs/week of garden/yard care (I bring seeds and maintain flower/vegetable beds) plus light home/tech help.\n\nOpen to a modest rent credit if helpful. Happy to meet today and share references.\n\n— Robert · 678-371-9527 · worldseafood@gmail.com",
+      "persona": ["owner occupied", "for rent by owner", "frbo", "private landlord"]
+    },
+    {
+      "id": "homeshare_elder",
+      "name": "Homeshare / Elder Homeowner",
+      "subject": "Homeshare inquiry — quiet tenant + garden care (trial OK)",
+      "body": "Hello {contact_name},\n\nI'm seeking a quiet room in Winter Haven and can assist with garden & yard care and simple home tasks 6–10 hrs/week. I'm reliable, clean, and offer a 30-day trial and references. A small rent credit in exchange is welcome, but I'm flexible.\n\nCould we arrange a brief visit?\n\n— Robert · 678-371-9527",
+      "persona": ["homeshare", "home share", "silvernest", "senior", "elder", "caretaker"]
+    },
+    {
+      "id": "church_community",
+      "name": "Church / Community Admin",
+      "subject": "Room-seek inquiry for bulletin — reliable tenant who can help with grounds",
+      "body": "Hello {org_name} Team,\n\nCould you post or share this request? I'm a responsible adult seeking a small room in Winter Haven (33880). I can help your members with garden/yard care or light tech support 6–10 hrs/week and am open to a rent-credit arrangement. References/background check available.\n\nThank you kindly,\nRobert · 678-371-9527 · worldseafood@gmail.com",
+      "persona": ["church", "community", "bulletin", "senior center", "library"]
+    }
+  ]
+}
