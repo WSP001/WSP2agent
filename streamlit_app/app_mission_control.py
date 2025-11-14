@@ -232,23 +232,36 @@ with tab_run:
     
     # Run pipeline button
     if st.button("▶️ Run Full Pipeline (Dry Run)", type="primary", use_container_width=True):
-        cmd = ["python", "run_pipeline.py", "--dry-run", "--top-n", str(top_n)]
-        
-        if st.session_state.get("profile_path"):
-            cmd += ["--profile", st.session_state["profile_path"]]
-        
-        if st.session_state.get("queries_path"):
-            cmd += ["--queries", st.session_state["queries_path"]]
-        
-        with st.spinner(f"Running pipeline... (this may take 2-5 minutes)"):
-            st.code(" ".join(cmd), language="bash")
-            rc = subprocess.call(cmd, env=os.environ.copy())
-        
-        if rc == 0:
-            st.success("✅ Pipeline complete! Check the 'Approve & Send' tab.")
+        if use_demo:
+            st.info("ℹ️ **Demo Mode**: Using pre-loaded sample data from Winter Haven housing search")
+            st.markdown("""
+            **Demo dataset includes:**
+            - 87 raw search results from multiple platforms
+            - 10 curated landlord contacts with scoring
+            - 3 pre-composed personalized emails
+            
+            Toggle off "Use demo seed data" in the sidebar to run live searches.
+            """)
+            st.success("✅ Demo data ready! Check the 'Approve & Send' tab to review sample emails.")
             st.balloons()
         else:
-            st.error(f"❌ Pipeline failed with exit code {rc}. Check terminal logs.")
+            cmd = ["python", "run_pipeline.py", "--dry-run", "--top-n", str(top_n)]
+            
+            if st.session_state.get("profile_path"):
+                cmd += ["--profile", st.session_state["profile_path"]]
+            
+            if st.session_state.get("queries_path"):
+                cmd += ["--queries", st.session_state["queries_path"]]
+            
+            with st.spinner(f"Running pipeline... (this may take 2-5 minutes)"):
+                st.code(" ".join(cmd), language="bash")
+                rc = subprocess.call(cmd, env=os.environ.copy())
+            
+            if rc == 0:
+                st.success("✅ Pipeline complete! Check the 'Approve & Send' tab.")
+                st.balloons()
+            else:
+                st.error(f"❌ Pipeline failed with exit code {rc}. Check terminal logs.")
     
     st.divider()
     
