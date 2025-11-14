@@ -1,0 +1,35 @@
+[
+  {
+    "rank": 1,
+    "organization": "Cheap Winter Haven Homes for Rent",
+    "url": "https://www.apartmenthomeliving.com/winter-haven-fl/homes-for-rent/cheap",
+    "to_email": "info@apartmenthomeliving.com",
+    "subject": "Looking for Affordable Winter Haven Rental – Mutual Housing Match?",
+    "body": "Dear Cheap Winter Haven Homes Team,\n\nI found your site while searching for affordable rentals in the Winter Haven area, and I'm impressed by your focus on connecting renters with budget-friendly homes from private owners.\n\nI'm looking for housing in Winter Haven (ideally under $700/month) and I'd love to:\n• See if you have any current listings from landlords open to flexible arrangements\n• Discuss how I can help spread the word about available rentals in exchange for assistance finding a place\n\nI've attached a one-page overview of what I'm looking for and how I can add value as a reliable, long-term tenant.\n\nWould you be open to a quick call this week? I'm happy to work around your schedule.\n\nThank you for connecting affordable housing seekers with good landlords!\n\nBest regards",
+    "template": "FRBO",
+    "pdf_flyer": "out/flyer_cheap_winter_haven_homes.pdf",
+    "notes": "Score: 26.0 | Top match for 'for rent by owner' + budget fit ($600 range)"
+  },
+  {
+    "rank": 2,
+    "organization": "HomeShare Online",
+    "url": "https://homeshareonline.org/",
+    "to_email": "support@homeshareonline.org",
+    "subject": "Winter Haven Housing Seeker – Interested in Your Platform",
+    "body": "Dear HomeShare Online Team,\n\nI came across your platform while searching for home-sharing options, and I'm impressed by your mission to connect compatible housemates through thoughtful matching.\n\nI'm currently searching for affordable housing in the Winter Haven, Florida area and I'm very open to:\n• Sharing a home with a compatible housemate (ideally a senior or someone seeking a responsible, quiet tenant)\n• Offering companionship, light household help, or errands in exchange for reduced rent\n\nYour platform seems like a perfect fit for people like me who value community over just transactional housing.\n\nI've attached a one-page overview of my situation and what I bring to a shared living arrangement.\n\nCould we schedule a brief call to discuss how I might use your service—or if you have any landlords/hosts in the Winter Haven area who might be a fit?\n\nThank you for building such a thoughtful platform!\n\nWarm regards",
+    "template": "HOMESHARE",
+    "pdf_flyer": "out/flyer_homeshare_online.pdf",
+    "notes": "Score: 25.0 | Top homesharing platform with email + phone"
+  },
+  {
+    "rank": 3,
+    "organization": "Senior Planet (Senior House Sharing Article)",
+    "url": "https://seniorplanet.org/senior-house-sharing-is-on-the-rise/",
+    "to_email": "info@seniorplanet.org",
+    "subject": "Inspired by Your Article on Senior House Sharing – Winter Haven Seeker",
+    "body": "Dear Senior Planet Team,\n\nI just read your article on the rise of senior house sharing, and it really resonated with me. The mention of Silvernest and the growing trend of intergenerational home-sharing is exactly what I've been searching for.\n\nI'm currently looking for affordable housing in Winter Haven, Florida, and I'm specifically interested in:\n• Connecting with seniors who might benefit from a housemate (I'm quiet, responsible, and happy to help with errands/light tasks)\n• Learning more about platforms like Silvernest or similar services you recommend\n\nYour article mentioned the financial and social benefits of home-sharing for seniors—I'd love to be part of that solution.\n\nI've attached a one-page overview of my situation and what I can offer as a housemate.\n\nWould you be open to a quick call to discuss resources in the Winter Haven area, or could you connect me with someone at Silvernest or a similar service?\n\nThank you for shining a light on this important housing option!\n\nGratefully",
+    "template": "HOMESHARE",
+    "pdf_flyer": "out/flyer_senior_planet.pdf",
+    "notes": "Score: 25.0 | Has email (info@seniorplanet.org) | Mentions Silvernest + home-sharing"
+  }
+]
