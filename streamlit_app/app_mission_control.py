@@ -96,14 +96,18 @@ with tab_run:
     
     with qcol1:
         if st.button("🔄 Full Pipeline", use_container_width=True, type="primary"):
-            with st.spinner("Running complete pipeline..."):
-                cmd = ["python", "run_pipeline.py", "--dry-run"]
-                rc = subprocess.call(cmd)
-            if rc == 0:
-                st.success("✅ Pipeline complete!")
-                st.balloons()
+            if use_demo:
+                st.info("ℹ️ Demo mode: Using bundled sample data")
+                st.success("✅ Demo data ready! Check Tab 2 to approve sample emails")
             else:
-                st.error("❌ Pipeline failed")
+                with st.spinner("Running complete pipeline..."):
+                    cmd = ["python", "run_pipeline.py", "--dry-run"]
+                    rc = subprocess.call(cmd)
+                if rc == 0:
+                    st.success("✅ Pipeline complete!")
+                    st.balloons()
+                else:
+                    st.error("❌ Pipeline failed - try enabling demo mode")
     
     with qcol2:
         if st.button("🔍 Preview Queries", use_container_width=True):
