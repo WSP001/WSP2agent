@@ -286,6 +286,104 @@ with tab_approve:
     df = _safe_read_csv(DATA_DIR / "top10_landlords.csv")
     
     with acol1:
+        # 🚀 1-CLICK LAUNCH SUPER-BUTTON
+        launch_disabled = df.empty or use_demo
+        if st.button("🚀 1-Click Launch Campaign", use_container_width=True, type="primary", disabled=launch_disabled):
+            # Check OAuth first
+            if not has_oauth_token(Path(".")):
+                st.error("""
+                ❌ **Gmail OAuth Required!**
+                
+                Run this command in terminal first:
+                ```powershell
+                python -c "import modules.gmailer as g; g.gmail_auth()"
+                ```
+                Then click this button again.
+                """)
+            else:
+                progress_bar = st.progress(0, text="Starting campaign...")
+                
+                # Step 1: Approve Top 3
+                progress_bar.progress(20, text="✅ Approving top 3 landlords...")
+                df["approved"] = False
+                df.loc[0:2, "approved"] = True
+                df.to_csv(DATA_DIR / "top10_landlords.csv", index=False, encoding="utf-8")
+                
+                # Step 2: Generate Drafts (auto-pick logic - simplified version)
+                progress_bar.progress(40, text="✍️ Generating personalized emails...")
+                import json
+                from pathlib import Path
+                
+                work = df.head(3).copy()
+                drafts = []
+                
+                for idx, (_, row) in enumerate(work.iterrows(), 1):
+                    email = str(row.get("emails", "")).split(",")[0].strip()
+                    org_name = str(row.get("organization", "Landlord"))
+                    url = str(row.get("url", ""))
+                    
+                    draft = {
+                        "rank": idx,
+                        "to_email": email or "(no email found)",
+                        "subject": "Room inquiry — reliable tenant, can help with garden & light upkeep",
+                        "body": f"""Hi there,
+
+I'm Robert, looking for a private room in Winter Haven (33880). Budget $400–$700. I'm tidy, pay on time, and can offer 6–10 hrs/week of garden/yard care plus light home/tech help.
+
+Open to a modest rent credit if helpful. Happy to meet and share references.
+
+Property: {org_name}
+Listing: {url}
+
+— Robert
+📞 678-371-9527
+📧 worldseafood@gmail.com"""
+                    }
+                    drafts.append(draft)
+                
+                # Save drafts
+                drafts_file = DATA_DIR / "top3_emails_export.json"
+                drafts_file.write_text(json.dumps(drafts, indent=2), encoding="utf-8")
+                
+                # Step 3: Build Packages
+                progress_bar.progress(60, text="📦 Building email packages...")
+                code_build = (
+                    "from modules.broker import create_packages_from_csv; "
+                    "create_packages_from_csv('data/top10_landlords.csv', pdf_dir='out', only_approved=True)"
+                )
+                rc_build = subprocess.call(["python", "-c", code_build])
+                
+                if rc_build != 0:
+                    st.error("❌ Package build failed. Check terminal logs.")
+                    progress_bar.empty()
+                else:
+                    # Step 4: Send Emails
+                    progress_bar.progress(80, text="📤 Sending emails (live mode)...")
+                    code_send = "import modules.worker as w; w.poll_and_send(dry_run=False)"
+                    rc_send = subprocess.call(["python", "-c", code_send])
+                    
+                    progress_bar.progress(100, text="✅ Campaign complete!")
+                    
+                    if rc_send == 0:
+                        st.success("🎉 **CAMPAIGN LAUNCHED!** 3 emails sent successfully!")
+                        st.balloons()
+                        st.info("""
+                        **Next steps:**
+                        - Check `data/sandbox/sent/` for sent confirmation
+                        - Monitor Tab 3 for replies
+                        - Check your Gmail Sent folder
+                        """)
+                    else:
+                        st.error("❌ Send failed. Check terminal logs for details.")
+                    
+                    progress_bar.empty()
+        
+        if use_demo:
+            st.caption("⚠️ Disabled in demo mode")
+        elif df.empty:
+            st.caption("⚠️ Run pipeline first")
+    
+    with acol2:
         if st.button("✅ Approve Top 3", use_container_width=True, disabled=df.empty):
             if not df.empty:
                 df["approved"] = False
