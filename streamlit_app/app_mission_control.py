@@ -699,62 +699,66 @@ to contribute yard/garden care for rent reduction.
         # ========== SEND CONTROLS ==========
         st.subheader("📤 Send Controls (Top-3)")
         
-        col1, col2 = st.columns([1, 1])
-        
-        with col1:
-            dry_run = st.toggle("Dry Run Mode", value=True, help="Simulate send without actually sending")
-        
-        with col2:
-            max_live = st.number_input("Max Live Sends", min_value=1, max_value=3, value=3)
-        
-        st.write(" ")
-        
-        col_build, col_send = st.columns([1, 1])
-        
-        with col_build:
-            if st.button("📦 Build Packages (Top-3)", use_container_width=True, type="primary"):
-                code = (
-                    "from modules.broker import create_packages_from_csv; "
-                    "create_packages_from_csv('data/top10_landlords.csv', pdf_dir='out', only_approved=True)"
-                )
-                with st.spinner("Building packages for approved rows..."):
-                    rc = subprocess.call(["python", "-c", code])
-                
-                if rc == 0:
-                    st.success("✅ Packages built successfully! Check `data/sandbox/outbox/`")
-                else:
-                    st.error("❌ Broker error. Check terminal logs.")
-        
-        with col_send:
-            if st.button("📤 Send (Worker, Top-3)", use_container_width=True, type="primary"):
-                # OAuth check
-                if not dry_run and not has_oauth_token(Path(".")):
-                    st.error("❌ No token.json found. Run Gmail OAuth first:\n\n"
-                             "```powershell\npython -c \"import modules.gmailer as g; g.gmail_auth()\"\n```")
-                elif not dry_run and max_live < 1:
-                    st.error("❌ Safety cap must allow at least 1 live send.")
-                else:
-                    if not dry_run:
-                        st.warning(f"⚠️ LIVE MODE SELECTED. Will send up to {max_live} emails.")
-                    
-                    with st.spinner("Worker running..."):
-                        code = f"import modules.worker as w; w.poll_and_send(dry_run={str(dry_run)})"
+        # Demo mode protection
+        if use_demo:
+            st.info("""
+            📭 **Demo mode:** Email sending is disabled on Streamlit Cloud.
+            
+            **To send real emails:**
+            1. Run WSP2AGENT locally on your computer
+            2. Complete Gmail OAuth once: `python -c "import modules.gmailer as g; g.gmail_auth()"`
+            3. Use these controls in your local instance
+            
+            **For now:** Review the email drafts above to see how personalization works!
+            """)
+        else:
+            col1, col2 = st.columns([1, 1])
+            
+            with col1:
+                dry_run = st.toggle("Dry Run Mode", value=True, help="Simulate send without actually sending")
+            
+            with col2:
+                max_live = st.number_input("Max Live Sends", min_value=1, max_value=3, value=3)
+            
+            st.write(" ")
+            
+            col_build, col_send = st.columns([1, 1])
+            
+            with col_build:
+                if st.button("📦 Build Packages (Top-3)", use_container_width=True, type="primary"):
+                    code = (
+                        "from modules.broker import create_packages_from_csv; "
+                        "create_packages_from_csv('data/top10_landlords.csv', pdf_dir='out', only_approved=True)"
+                    )
+                    with st.spinner("Building packages for approved rows..."):
                         rc = subprocess.call(["python", "-c", code])
                     
                     if rc == 0:
-                        st.success("✅ Worker finished successfully! Check logs for details.")
-                        st.balloons()
+                        st.success("✅ Packages built successfully! Check `data/sandbox/outbox/`")
                     else:
-                        st.error("❌ Worker error. Check terminal logs for details.")
+                        st.error("❌ Broker error. Check terminal logs.")
             
-            code = f"import modules.worker as w; w.poll_and_send(dry_run={str(dry_run)})"
-            with st.spinner("Worker running..."):
-                rc = subprocess.call(["python", "-c", code])
-            
-            if rc == 0:
-                st.success("✅ Worker finished successfully!")
-            else:
-                st.error("❌ Worker error. Check terminal logs.")
+            with col_send:
+                if st.button("📤 Send (Worker, Top-3)", use_container_width=True, type="primary"):
+                    # OAuth check
+                    if not dry_run and not has_oauth_token(Path(".")):
+                        st.error("❌ No token.json found. Run Gmail OAuth first:\n\n"
+                                 "```powershell\npython -c \"import modules.gmailer as g; g.gmail_auth()\"\n```")
+                    elif not dry_run and max_live < 1:
+                        st.error("❌ Safety cap must allow at least 1 live send.")
+                    else:
+                        if not dry_run:
+                            st.warning(f"⚠️ LIVE MODE SELECTED. Will send up to {max_live} emails.")
+                        
+                        with st.spinner("Worker running..."):
+                            code = f"import modules.worker as w; w.poll_and_send(dry_run={str(dry_run)})"
+                            rc = subprocess.call(["python", "-c", code])
+                        
+                        if rc == 0:
+                            st.success("✅ Worker finished successfully! Check logs for details.")
+                            st.balloons()
+                        else:
+                            st.error("❌ Worker error. Check terminal logs for details.")
     
     # ---------- Live Approval Preview ----------
     st.divider()
